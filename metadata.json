@@ -1,0 +1,6 @@
+{
+  "name": "Orinli",
+  "description": "Ingliz tili so'zlarini kitoblaringiz orqali haqiqiy kontekstda o'rganing.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
