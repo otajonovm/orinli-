@@ -17,19 +17,37 @@ async function postAI<T>(
     body: JSON.stringify({ action, payload }),
   });
 
-  const data = await res.json().catch(() => ({}));
+  const raw = await res.text();
+  let data: Record<string, unknown> = {};
+  try {
+    data = raw ? JSON.parse(raw) : {};
+  } catch {
+    console.error(
+      `[api/ai ${action}] JSON emas (status ${res.status}):`,
+      raw.slice(0, 200)
+    );
+    throw new Error(
+      res.status === 404
+        ? 'API topilmadi (404). Vercel serverless /api marshrutlarini tekshiring.'
+        : `Server noto‘g‘ri javob qaytardi (${res.status}).`
+    );
+  }
 
   if (!res.ok) {
-    const msg = data?.messageUz || data?.error || `So‘rov xatosi (${res.status})`;
-    console.error(`[api/ai ${action}]`, msg, data?._meta?.error || '');
+    const msg =
+      (data?.messageUz as string) ||
+      (data?.error as string) ||
+      `So‘rov xatosi (${res.status})`;
+    console.error(`[api/ai ${action}]`, msg, (data?._meta as { error?: string })?.error || '');
     throw new Error(msg);
   }
 
-  if (data?._meta?.error) {
-    console.error(`[api/ai ${action}] Dev sabab:`, data._meta.error, '| manba:', data._meta.source);
+  const meta = data._meta as { source?: string; error?: string } | undefined;
+  if (meta?.error) {
+    console.error(`[api/ai ${action}] Dev sabab:`, meta.error, '| manba:', meta.source);
   }
 
-  return data;
+  return data as T & { messageUz?: string; _meta?: { source?: string; error?: string } };
 }
 
 export async function apiAnalyzeBook(text: string, title?: string): Promise<ExtractionResult> {
