@@ -497,11 +497,74 @@ export function getInitialUserProgress(): UserProgress {
     lastActiveDate: today,
     dailyQuest: {
       date: today,
+      writingsCompleted: 0,
+      collocationsSaved: 0,
       wordsLearned: 0,
       wordsReviewed: 0,
     },
     badges: [],
+    writingHistory: [],
+    settings: {
+      level: 'B1',
+      field: 'business',
+      providers: { books: true, ai: true, bnc: false },
+      privacyLocalOnly: true,
+    },
   };
+}
+
+/** Spaced repetition intervals: 1, 3, 7, 14 days */
+export const REVIEW_INTERVALS = [1, 3, 7, 14] as const;
+
+export function nextReviewDate(intervalDays: number, from = new Date()): string {
+  const d = new Date(from);
+  d.setDate(d.getDate() + intervalDays);
+  return d.toISOString();
+}
+
+export function scheduleWordReview(
+  db: Record<string, WordRecord>,
+  lemma: string,
+  success: boolean
+): Record<string, WordRecord> {
+  const key = lemma.trim().toLowerCase();
+  const word = db[key];
+  if (!word) return db;
+
+  const currentIdx = REVIEW_INTERVALS.indexOf(
+    (word.reviewIntervalDays as (typeof REVIEW_INTERVALS)[number]) || 1
+  );
+  let nextIdx = success ? Math.min(REVIEW_INTERVALS.length - 1, Math.max(0, currentIdx) + 1) : 0;
+  if (currentIdx < 0) nextIdx = success ? 0 : 0;
+  const interval = REVIEW_INTERVALS[success ? (currentIdx < 0 ? 0 : nextIdx) : 0];
+
+  return {
+    ...db,
+    [key]: {
+      ...word,
+      reviewIntervalDays: interval,
+      nextReviewAt: nextReviewDate(interval),
+      lastStudiedAt: new Date().toISOString(),
+    },
+  };
+}
+
+export function getDueWords(db: Record<string, WordRecord>): WordRecord[] {
+  const now = Date.now();
+  return Object.values(db).filter((w) => {
+    if (!w.nextReviewAt) return w.mastery >= 1;
+    return new Date(w.nextReviewAt).getTime() <= now;
+  });
+}
+
+export function touchStreak(progress: UserProgress): UserProgress {
+  const today = new Date().toISOString().slice(0, 10);
+  if (progress.lastActiveDate === today) return progress;
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const yStr = yesterday.toISOString().slice(0, 10);
+  const streak = progress.lastActiveDate === yStr ? progress.streak + 1 : 1;
+  return { ...progress, streak, lastActiveDate: today };
 }
 
 /**

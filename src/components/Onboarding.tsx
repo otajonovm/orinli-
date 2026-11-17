@@ -24,10 +24,10 @@ export const Onboarding: React.FC<OnboardingProps> = ({
           </div>
 
           <h2 className="text-2xl sm:text-4xl font-black text-[#0F1C2E] tracking-tight leading-tight">
-            Avval kitoblaringizdan baza tuzamiz
+            WriteTechAI — avval so‘zlar bazasini tuzamiz
           </h2>
           <p className="text-xs sm:text-base text-[#0F1C2E]/70 leading-relaxed">
-            BNC ulaguncha o‘zingizdagi kitoblar dastur bazasi bo‘ladi. Yuklang, AI so‘zlarni bazaga yozadi, keyin shu bazadan o‘rganasiz.
+            Kitob yuklang yoki matn joylashtiring: AI so‘zlarni bazaga yozadi. Keyin yozish, kollokatsiya va takrorlashdan foydalanasiz. BNC hozircha ulanmagan.
           </p>
         </div>
 

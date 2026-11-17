@@ -21,10 +21,10 @@ export const BooksScreen: React.FC<BooksScreenProps> = ({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-2xl sm:text-3xl font-black text-[#0F1C2E] tracking-tight">
-            Kitoblarim
+            So‘zlar / Kitoblarim
           </h2>
           <p className="text-xs sm:text-sm text-[#0F1C2E]/60 mt-1">
-            WordDatabase lug‘atini boyitgan shaxsiy kitoblar va matnlar
+            So‘zlar bazasini boyitgan shaxsiy kitoblar, matnlar va takrorlash
           </p>
         </div>
 
@@ -44,7 +44,7 @@ export const BooksScreen: React.FC<BooksScreenProps> = ({
           <span>Shaxsiy kitoblar bazasi (hozir faol)</span>
         </div>
         <p className="text-xs sm:text-sm text-[#0F1C2E]/75 leading-relaxed">
-          BNC ulaguncha har bir yuklangan kitob umumiy so‘zlar bazasini boyitadi. Har xil kitobdan olingan namunalar bir so‘z kartochkasida to‘planib boradi.
+          BNC ulanmaguncha har bir yuklangan kitob so‘zlar bazasini boyitadi. Har xil kitobdan olingan qisqa namunalar bir so‘z kartochkasida to‘planadi (≤ 200 belgi).
         </p>
         <p className="text-[11px] sm:text-xs text-[#0F1C2E]/55 italic pt-1">
           * Avval kitobning bosh qismidan so‘zlar olindi. Kitoblaringiz shu qurilmada qoladi.

@@ -61,10 +61,23 @@ export const UploadModal: React.FC<UploadModalProps> = ({
       });
 
       if (!response.ok) {
+        const errBody = await response.text().catch(() => '');
+        console.error('[Upload] extract-words HTTP xato:', response.status, errBody);
         throw new Error('Serverda xatolik yuz berdi');
       }
 
       const data: ExtractionResult = await response.json();
+
+      if (data._meta?.error) {
+        console.error(
+          '[Upload] Kitob tahlili xatosi (dev sabab):',
+          data._meta.error,
+          '| manba:',
+          data._meta.source
+        );
+      } else {
+        console.info('[Upload] Tahlil manbasi:', data._meta?.source || 'noma’lum');
+      }
 
       if (data.warningUz && (!data.words || data.words.length === 0)) {
         setErrorMsg(data.warningUz);

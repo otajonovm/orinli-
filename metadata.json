@@ -1,6 +1,6 @@
 {
-  "name": "Orinli",
-  "description": "Ingliz tili so'zlarini kitoblaringiz orqali haqiqiy kontekstda o'rganing.",
+  "name": "WriteTechAI",
+  "description": "O‘zbek tilidagi yordam bilan texnik va akademik inglizcha yozuv: rasmiy xat, email, hisobot, esse, kollokatsiyalar va AI tekshiruv.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

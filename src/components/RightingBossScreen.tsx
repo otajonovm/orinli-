@@ -163,7 +163,7 @@ export const RightingBossScreen: React.FC<RightingBossScreenProps> = ({
         </div>
         <h3 className="text-2xl font-bold text-[#0F1C2E]">Dars hali qulflangan</h3>
         <p className="text-sm text-[#0F1C2E]/60 max-w-md leading-relaxed">
-          Ushbu boss-darsini ochish uchun WordDatabase’dan kamida 8 ta so‘zni o‘zlashtiring yoki kutubxonangizga "righting" / "writing" so‘zlari bor kitobni yuklang.
+          Ushbu boss-darsini ochish uchun so‘zlar bazasidan kamida 8 ta so‘zni o‘zlashtiring yoki kutubxonangizga "righting" / "writing" so‘zlari bor kitobni yuklang.
         </p>
         <button
           onClick={onBack}
